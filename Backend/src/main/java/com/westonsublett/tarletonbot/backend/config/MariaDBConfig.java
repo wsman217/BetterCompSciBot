@@ -1,16 +1,17 @@
 package com.westonsublett.tarletonbot.backend.config;
 
-import com.westonsublett.tarletonbot.backend.BackendApplication;
+/*import com.westonsublett.tarletonbot.backend.BackendApplication;
 import org.mariadb.r2dbc.MariadbConnectionConfiguration;
 import org.mariadb.r2dbc.MariadbConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;*/
 
 /**
  * This class is used to establish a connection to the database using values from the config.json.
  */
+/*
 @Configuration
 @EnableR2dbcRepositories
 public class MariaDBConfig extends AbstractR2dbcConfiguration {
@@ -29,3 +30,4 @@ public class MariaDBConfig extends AbstractR2dbcConfiguration {
                 .build());
     }
 }
+*/
