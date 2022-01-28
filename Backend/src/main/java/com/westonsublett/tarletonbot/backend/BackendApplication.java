@@ -18,11 +18,13 @@ import java.nio.file.StandardCopyOption;
 @SpringBootApplication
 public class BackendApplication {
 
-    private final Logger logger = LoggerFactory.getLogger(BackendApplication.class);
+    @Getter
+    private static final Logger logger = LoggerFactory.getLogger(BackendApplication.class);
     @Getter
     private static Config config;
 
     public static void main(String[] args) {
+        new BackendApplication();
         SpringApplication.run(BackendApplication.class, args);
     }
 
@@ -43,7 +45,7 @@ public class BackendApplication {
     private boolean isFirstLoad() {
         try {
             Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Path.of("../config.json"));
+            Reader reader = Files.newBufferedReader(Path.of("config.json"));
             Config config = gson.fromJson(reader, Config.class);
             return config.isFirstBoot();
         } catch (Exception e) {
@@ -89,7 +91,7 @@ public class BackendApplication {
             }
             File file = new File(url.toURI());
 
-            File output = Files.copy(file.toPath(), Path.of("../" + fileName), StandardCopyOption.REPLACE_EXISTING).toFile();
+            File output = Files.copy(file.toPath(), Path.of(fileName), StandardCopyOption.REPLACE_EXISTING).toFile();
             if (!output.exists())
                 logger.error("File:" + fileName + " was unsuccessfully copied. Please delete all files and retry.");
             return output;
@@ -106,7 +108,7 @@ public class BackendApplication {
     private void loadConfig() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
-            config = gson.fromJson(Files.newBufferedReader(Path.of("../config.json")), Config.class);
+            config = gson.fromJson(Files.newBufferedReader(Path.of("config.json")), Config.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
