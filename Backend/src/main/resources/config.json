@@ -2,7 +2,7 @@
   "isFirstBoot": true,
   "host": "localhost",
   "port": 3306,
-  "username": "default-user",
+  "username": "compSciUser",
   "password": "password1234",
-  "database": "bug_tracker"
+  "database": "better_comp_sci_bot"
 }
