@@ -16,20 +16,22 @@ public class User {
     private Long id;
 
     @Getter
+    @Column(name = "name")
     private String name;
 
     @Getter
+    @Column(nullable = false, unique = true, name = "discord_id")
     private Long discordId;
 
     @Getter
+    @Column(name = "time")
     private Timestamp time;
 
     public User() {
 
     }
 
-    public User(Long id, String name, Long discordId, Timestamp time) {
-        this.id = id;
+    public User(String name, Long discordId, Timestamp time) {
         this.name = name;
         this.discordId = discordId;
         this.time = time;

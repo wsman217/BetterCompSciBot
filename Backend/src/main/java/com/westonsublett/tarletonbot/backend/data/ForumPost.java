@@ -27,12 +27,15 @@ public class ForumPost implements Serializable {
     private User user;
 
     @Getter
+    @Column(name = "title")
     private String title;
 
     @Getter
+    @Column(name = "content")
     private String content;
 
     @Getter
+    @Column(name = "time")
     private Timestamp time;
 
     public ForumPost() {
