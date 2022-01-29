@@ -1,8 +1,0 @@
-{
-  "isFirstBoot": true,
-  "host": "localhost",
-  "port": 3306,
-  "username": "default-user",
-  "password": "password1234",
-  "database": "bug_tracker"
-}

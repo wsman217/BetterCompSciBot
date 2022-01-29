@@ -1,21 +1,31 @@
 package com.westonsublett.tarletonbot.backend.data;
 
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
-//import org.springframework.data.relational.core.mapping.Table;
 
-//@Table("categories")
-public class ForumCategory {
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Table(name = "categories")
+@Entity
+public class ForumCategory implements Serializable {
 
     @Getter
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     @Getter
     private String title;
+
     @Getter
     private String description;
 
-    public ForumCategory(int id, String title, String description) {
+    public ForumCategory() {
+
+    }
+
+    public ForumCategory(Long id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
