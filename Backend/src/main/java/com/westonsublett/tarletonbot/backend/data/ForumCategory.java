@@ -16,9 +16,11 @@ public class ForumCategory implements Serializable {
     private Long id;
 
     @Getter
+    @Column(name = "title")
     private String title;
 
     @Getter
+    @Column(name = "description")
     private String description;
 
     public ForumCategory() {

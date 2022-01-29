@@ -14,11 +14,10 @@ import javax.sql.DataSource;
 @Configuration
 public class MariaDB {
 
-    private final Config config = BackendApplication.getConfig();
+    private final Config.ConfigData config = Config.getData();
 
     @Bean
     public DataSource getDataSource() {
-        System.out.println("test");
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.mariadb.jdbc.Driver")
                 .url("jdbc:mariadb://" + config.getHost() + ":" + config.getPort() + "/" + config.getDatabase())
