@@ -17,7 +17,8 @@ public class MariaDB {
     private final Config.ConfigData config = Config.getData();
 
     @Bean
-    public DataSource getDataSource() {
+    public DataSource dataSource() {
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.mariadb.jdbc.Driver")
                 .url("jdbc:mariadb://" + config.getHost() + ":" + config.getPort() + "/" + config.getDatabase())

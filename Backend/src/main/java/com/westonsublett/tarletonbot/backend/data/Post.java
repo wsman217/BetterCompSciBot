@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "posts")
-public class ForumPost implements Serializable {
+public class Post implements Serializable {
 
     @Id
     @Getter
@@ -19,7 +19,7 @@ public class ForumPost implements Serializable {
     @Getter
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private ForumCategory forumCategory;
+    private Category category;
 
     @Getter
     @ManyToOne
@@ -38,13 +38,12 @@ public class ForumPost implements Serializable {
     @Column(name = "time")
     private Timestamp time;
 
-    public ForumPost() {
+    public Post() {
 
     }
 
-    public ForumPost(Long id, ForumCategory forumCategory, User user, String title, String content, Timestamp time) {
-        this.id = id;
-        this.forumCategory = forumCategory;
+    public Post(Category category, User user, String title, String content, Timestamp time) {
+        this.category = category;
         this.user = user;
         this.title = title;
         this.content = content;
@@ -53,6 +52,6 @@ public class ForumPost implements Serializable {
 
     @Override
     public String toString() {
-        return "Post[id=" + id + ", forumCategory=" + forumCategory + ", user=" + user + ", title=" + title + ", content=" + content + ", time=" + time + "]";
+        return "Post[id=" + id + ", forumCategory=" + category + ", user=" + user + ", title=" + title + ", content=" + content + ", time=" + time + "]";
     }
 }

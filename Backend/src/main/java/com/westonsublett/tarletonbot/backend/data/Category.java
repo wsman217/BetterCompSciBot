@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Table(name = "categories")
 @Entity
-public class ForumCategory implements Serializable {
+public class Category implements Serializable {
 
     @Getter
     @Id
@@ -23,12 +23,11 @@ public class ForumCategory implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public ForumCategory() {
+    public Category() {
 
     }
 
-    public ForumCategory(Long id, String title, String description) {
-        this.id = id;
+    public Category(String title, String description) {
         this.title = title;
         this.description = description;
     }

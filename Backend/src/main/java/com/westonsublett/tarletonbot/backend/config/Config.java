@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,31 +18,20 @@ import java.nio.file.StandardCopyOption;
 
 public class Config {
 
-    @Getter
-    private static ConfigData data;
     private static final Logger logger = BackendApplication.getLogger();
+    private static ConfigData data;
 
-    /**
-     * Check if this is the first time loading the application.
-     *
-     * @return true if it is the first load false otherwise.
-     */
-    public static boolean isFirstLoad() {
-        try {
-            Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Path.of("config.json"));
-            ConfigData config = gson.fromJson(reader, ConfigData.class);
-            return config.isFirstBoot();
-        } catch (Exception e) {
-            return true;
-        }
-    }
+    //This gets the content root of the program. The .replace function gets rid of the folder Backend in the path so tests can run.
+    private static final String path = new File("").getAbsolutePath().replace("Backend", "") + "../config.json";
 
     /**
      * If this is the first load then copy all files from inside the jar to the outside of the jar.
      */
     public static void createFirstTime() {
-        File config = copyFile("config.json");
+        BackendApplication.getLogger().info("\n\n\nThe application has detected that this is the first time running the application.\n" +
+                "New files will be created at this time, stopping application so config can be edited.\n\n\n");
+
+        File config = copyFile();
         //Change the value of isFirstTime from true to false in the config.
         if (config != null) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -56,29 +48,31 @@ public class Config {
                 e.printStackTrace();
             }
         }
+        //System.exit(0);
     }
 
     /**
      * Copy a file from inside the jar to outside the jar.
      *
-     * @param fileName the filename in the resources' folder.
      * @return true if successful false otherwise.
      */
-    public static File copyFile(String fileName) {
+    public static File copyFile() {
         try {
-            URL url = BackendApplication.class.getClassLoader().getResource(fileName);
+            URL url = BackendApplication.class.getClassLoader().getResource("config.json");
             if (url == null) {
-                BackendApplication.getLogger().error("File:" + fileName + " could not be found please delete all files and retry.");
+                BackendApplication.getLogger().error("File: config.json could not be found please delete all files and retry.");
                 return null;
             }
             File file = new File(url.toURI());
-
-            File output = Files.copy(file.toPath(), Path.of(fileName), StandardCopyOption.REPLACE_EXISTING).toFile();
+            System.out.println(file.getAbsolutePath());
+            System.out.println(path);
+            File output = Files.copy(file.toPath(), Path.of(path), StandardCopyOption.REPLACE_EXISTING).toFile();
+            System.out.println(output.exists());
             if (!output.exists())
-                logger.error("File:" + fileName + " was unsuccessfully copied. Please delete all files and retry.");
+                logger.error("File: config.json was unsuccessfully copied. Please delete all files and retry.");
             return output;
         } catch (Exception e) {
-            logger.error("File:" + fileName + " was unsuccessfully copied. Please delete all files and retry.");
+            logger.error("File: config.json was unsuccessfully copied. Please delete all files and retry.");
             e.printStackTrace();
             return null;
         }
@@ -87,20 +81,25 @@ public class Config {
     /**
      * Load the config into memory.
      */
-    public static void loadConfig() {
+    public static boolean loadConfig() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
-            data = gson.fromJson(Files.newBufferedReader(Path.of("config.json")), ConfigData.class);
+            data = gson.fromJson(Files.newBufferedReader(Path.of(path)), ConfigData.class);
+            System.out.println(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
+    }
+
+    public static ConfigData getData() {
+        if (data == null)
+            if (!loadConfig())
+                createFirstTime();
+        return data;
     }
 
     public static class ConfigData {
-        @Getter
-        @Setter
-        private boolean isFirstBoot;
-
         @Getter
         private final String host;
         @Getter
@@ -111,7 +110,9 @@ public class Config {
         private final String password;
         @Getter
         private final String database;
-
+        @Getter
+        @Setter
+        private boolean isFirstBoot;
 
 
         public ConfigData(boolean isFirstBoot, String host, int port, String username, String password, String database) {
