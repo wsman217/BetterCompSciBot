@@ -1,0 +1,8 @@
+{
+  "isFirstBoot": false,
+  "host": "localhost",
+  "port": 3306,
+  "username": "compSciUser",
+  "password": "",
+  "database": "better_comp_sci_bot"
+}
