@@ -5,6 +5,10 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * This class represents an SQL table named categories with the schema of
+ * id BIGINT, title VARCHAR(60), description VARCHAR(255)
+ */
 @Table(name = "categories")
 @Entity
 public class Category implements Serializable {
@@ -35,5 +39,10 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "Category[id=" + id + ", title=" + title + ", description=" + description + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Category && (obj == this || obj.toString().equals(this.toString()));
     }
 }

@@ -2,7 +2,7 @@ package com.westonsublett.tarletonbot.backend.repository_tests;
 
 import com.westonsublett.tarletonbot.backend.data.Category;
 import com.westonsublett.tarletonbot.backend.data.Post;
-import com.westonsublett.tarletonbot.backend.data.User;
+import com.westonsublett.tarletonbot.backend.data.Users;
 import com.westonsublett.tarletonbot.backend.repository.CategoryRepository;
 import com.westonsublett.tarletonbot.backend.repository.PostRepository;
 import com.westonsublett.tarletonbot.backend.repository.UserRepository;
@@ -10,14 +10,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
 public class PostRepositoryDataIntegrationTest {
 
+    private final Category absoluteCategory = new Category("This is a title.",
+            "This is a description.");
+    private final Users absoluteUser = new Users("wsman217", 290952158969462795L);
+    private final String absoluteTitle = "This is the title of the post.";
+    private final String absoluteContent = "There is no strife, no prejudice, no national conflict in outer space as yet. " +
+            "Its hazards are hostile to us all. Its conquest deserves the best of all mankind, and its opportunity for " +
+            "peaceful cooperation many never come again. But why, some say, the moon? Why choose this as our goal? And " +
+            "they may well ask why climb the highest mountain? Why, 35 years ago, fly the Atlantic? Why does Rice play Texas?" +
+            "\n\n\n" +
+            "We choose to go to the moon. We choose to go to the moon in this decade and do the other things, not " +
+            "because they are easy, but because they are hard, because that goal will serve to organize and measure the " +
+            "best of our energies and skills, because that challenge is one that we are willing to accept, one we are " +
+            "unwilling to postpone, and one which we intend to win, and the others, too.";
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -25,18 +35,6 @@ public class PostRepositoryDataIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    private final Category absoluteCategory = new Category("This is a title.",
-            "This is a description.");
-    private final User absoluteUser = new User("wsman217", 290952158969462795L,
-            new Timestamp(Date.valueOf(LocalDate.now()).getTime()));
-    private final String absoluteTitle = "This is the title of the post.";
-    private final String absoluteContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
-            "incididunt ut labore et dolore magna aliqua. Sem integer vitae justo eget magna fermentum iaculis eu non. " +
-            "Massa id neque aliquam vestibulum morbi blandit. Eget magna fermentum iaculis eu non. Ut faucibus pulvinar " +
-            "elementum integer enim neque. \n\nSed pulvinar proin gravida hendrerit lectus. Posuere lorem ipsum dolor sit " +
-            "amet consectetur. Sagittis purus sit amet volutpat consequat mauris. Adipiscing at in tellus integer " +
-            "feugiat scelerisque varius morbi enim. Orci porta non pulvinar neque laoreet suspendisse interdum consectetur.";
-    private final Timestamp absoluteTime = new Timestamp(Date.valueOf(LocalDate.now()).getTime());
     @Test
     public void addPost() {
         addTestPost();
@@ -54,7 +52,6 @@ public class PostRepositoryDataIntegrationTest {
         assert (foundPost.getUser().equals(absoluteUser));
         assert (foundPost.getTitle().equals(absoluteTitle));
         assert (foundPost.getContent().equals(absoluteContent));
-        assert (foundPost.getTime().equals(absoluteTime));
     }
 
     @Test
@@ -70,7 +67,7 @@ public class PostRepositoryDataIntegrationTest {
     public void deletePost() {
         addTestPost();
 
-        Post foundPost = postRepository.findPostByTitle(absoluteTitle);
+        Post foundPost = postRepository.findByTitle(absoluteTitle);
 
         postRepository.delete(foundPost);
 
@@ -103,7 +100,7 @@ public class PostRepositoryDataIntegrationTest {
         categoryRepository.save(absoluteCategory);
         userRepository.save(absoluteUser);
 
-        Post post = new Post(absoluteCategory, absoluteUser, absoluteTitle, absoluteContent, absoluteTime);
+        Post post = new Post(absoluteCategory, absoluteUser, absoluteTitle, absoluteContent);
 
         postRepository.save(post);
     }

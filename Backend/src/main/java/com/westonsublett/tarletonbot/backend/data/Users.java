@@ -5,9 +5,13 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * This class represents an SQL table named post with the schema of
+ * id BIGINT, name VARCHAR(60), discord_id BIGINT, time TIMESTAMP
+ */
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
 
     @Getter
     @Id
@@ -27,18 +31,21 @@ public class User {
     @Column(name = "time")
     private Timestamp time;
 
-    public User() {
-
+    public Users() {
     }
 
-    public User(String name, Long discordId, Timestamp time) {
+    public Users(String name, Long discordId) {
         this.name = name;
         this.discordId = discordId;
-        this.time = time;
     }
 
     @Override
     public String toString() {
         return "User[id=" + id + ", name=" + name + ", discordId=" + discordId + ", time=" + time + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Users && (obj == this || obj.toString().equals(this.toString()));
     }
 }

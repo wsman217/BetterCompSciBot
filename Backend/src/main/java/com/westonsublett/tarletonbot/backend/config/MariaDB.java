@@ -1,6 +1,5 @@
 package com.westonsublett.tarletonbot.backend.config;
 
-import com.westonsublett.tarletonbot.backend.BackendApplication;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ public class MariaDB {
 
     @Bean
     public DataSource dataSource() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.mariadb.jdbc.Driver")
                 .url("jdbc:mariadb://" + config.getHost() + ":" + config.getPort() + "/" + config.getDatabase())
